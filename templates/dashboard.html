@@ -1,0 +1,52 @@
+
+
+
+{% extends "base.html" %}
+{% block title %}Мои заметки{% endblock %}
+{% block content %}
+<h1>Мои заметки</h1>
+<ul>
+    {% for note in notes %}
+        <li>
+            <b>{{ note.title }}</b>
+            <p>{{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}</p>
+            <small>Создано: <span class="local-time" data-utc="{{ note.created_at.isoformat() + 'Z' if note.created_at else '' }}"></span></small>
+
+            <br>
+            <a href="{{ url_for('edit_note', note_id=note.id) }}">Редактировать</a> |
+            <button type="button" onclick="if(confirm('Удалить заметку?')) { document.getElementById('delete-form-{{ note.id }}').submit(); }">Удалить</button>
+            <form id="delete-form-{{ note.id }}" action="{{ url_for('delete_note', note_id=note.id) }}" method="POST" style="display:none;">
+                {{ form.hidden_tag() if form else '' }}
+            </form>
+        </li>
+    {% else %}
+        <p>У вас пока нет заметок.</p>
+    {% endfor %}
+</ul>
+
+
+<script>
+document.querySelectorAll('.local-time').forEach(el => {
+  const utcString = el.dataset.utc;
+  if (!utcString) return;
+
+  const date = new Date(utcString);
+  if (isNaN(date.getTime())) return;
+
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+
+  el.textContent = date.toLocaleString(undefined, options);
+});
+</script>
+
+
+
+
+
+{% endblock %}
