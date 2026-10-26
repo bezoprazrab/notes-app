@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: bandit
+        name: Bandit Security Scan
+        entry: bandit -ll
+        language: python
+        types: [python]
+        pass_filenames: true
