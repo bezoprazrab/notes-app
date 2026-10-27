@@ -5,3 +5,4 @@ __pycache__/
 report.json
 *.logs
 bandit.yaml
+.pre-commit-config.yaml
