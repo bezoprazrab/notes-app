@@ -16,7 +16,7 @@ from sqlalchemy import text
 from flask import abort, flash, redirect, render_template, url_for
 from sqlalchemy import text
 
-x=255
+x=256
 
 app = Flask(__name__)
 app.config.from_object(Config)
